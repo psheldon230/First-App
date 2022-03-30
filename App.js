@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, Linking, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>My First App!
-        
+
+    <View style= {styles.container}>
+      <Text style= {styles.text}> My First App!
       </Text>
-      <StatusBar style="auto" />
+      <Button title= 'Click Me' onPress= {()=>{Linking.openURL('https://news.sky.com/story/blinking-white-guy-meet-the-man-using-meme-fame-to-raise-thousands-for-charity-11819235')}}> </Button>
     </View>
   );
 }
@@ -15,8 +15,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#00f',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
+  text: {
+    color: '#fff',
+    fontSize: 20,
+    fontStyle: 'italic',
+    margin: 40
+  }
 });
