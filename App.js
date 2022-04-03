@@ -1,13 +1,32 @@
+import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Linking, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
-  return (
+  const[name, setName] = useState("Peter's Counter!")
+  const[session, setSession] = useState({number: 0})
+  const[numState, setNumstate] = useState('')
+  const[current,setCurrent] = useState(true)
+  const onClick = () => {
+    let num = session.number
+    num ++
+    if (num % 2 == 0)
+    {
+      setNumstate('Even')
+    }
+    else{
 
+      setNumstate('Odd')
+    }
+    setName("Current Count: ")
+    setSession({number: num})
+  }
+  return (
     <View style= {styles.container}>
-      <Text style= {styles.text}> My First App!
-      </Text>
-      <Button title= 'Click Me' onPress= {()=>{Linking.openURL('https://news.sky.com/story/blinking-white-guy-meet-the-man-using-meme-fame-to-raise-thousands-for-charity-11819235')}}> </Button>
+      <Text style= {styles.text}>  {name}</Text>
+      <Text style= {styles.countBox}> {session.number} </Text>
+      <Text style= {styles.text}> State: {numState} </Text>
+      <Button title= 'Update State' onPress ={onClick}> </Button>
     </View>
   );
 }
@@ -21,8 +40,12 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    fontSize: 20,
-    fontStyle: 'italic',
-    margin: 40
+    fontSize: 25,
+    margin: 2,
+  },
+  countBox: {
+    fontSize: 40,
+    margin: 40,
+    backgroundColor: 'lime'
   }
 });
