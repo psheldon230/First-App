@@ -9,7 +9,7 @@ const App = () => {
     <Text style={styles.text}>Please write your name:
     </Text>
     <TextInput style= {styles.input}
-              placeholder= 'Ex: Peter'
+              placeholder= 'Ex: Isaac'
               onChangeText= {(v) => setName(v)}
                  />
     <Text style= {styles.text}>Your name is {name}</Text>
