@@ -1,26 +1,38 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable, Alert } from 'react-native';
+import { Button, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable, Alert, Modal } from 'react-native';
 
 const App = () => {
   const [name, setName] = useState('')
   const [state, setState] = useState(false)
+  const [showWarning, setShowwarning] = useState(false)
   const onPressButton = () => {
-    if(state | name.length > 3)
-    {
-    setState(!state)
+    if (state | name.length > 3) {
+      setState(!state)
     }
-    else
-    {
-      Alert.alert('Warning: the name must be longer than 3 characters')
-
-      
-
+    else {
+      setShowwarning(true)
     }
-    
   }
   return (
     <View style={styles.body}>
+      <Modal
+        visible={showWarning}
+        transparent
+        onRequestClose={() =>
+          setShowwarning(false)}
+      >
+        <View style= {styles.centeredView}>
+        <View style={styles.warningView}>
+        
+          <Text style={styles.warningText}>The name must be longer than 3 characters</Text>
+          <Button
+            title='Back'
+            onPress={() => setShowwarning(false)}
+          />
+        </View>
+        </View>
+      </Modal>
       <Text style={styles.text}>Please write your name:
       </Text>
       <TextInput style={styles.input}
@@ -28,18 +40,18 @@ const App = () => {
         onChangeText={(v) => setName(v)}
       />
       <Pressable
-      onPress={onPressButton}
-      underlayColor= 'red'
+        onPress={onPressButton}
+        underlayColor='red'
       >
-        <View style= {styles.button}>
-        <Text style={styles.text}> 
-        {
-         state ?
-          'Clear'
-          :
-          'Submit'
-        }
-        </Text>
+        <View style={styles.button}>
+          <Text style={styles.text}>
+            {
+              state ?
+                'Clear'
+                :
+                'Submit'
+            }
+          </Text>
         </View>
       </Pressable>
       {state ?
@@ -78,8 +90,28 @@ const styles = StyleSheet.create({
     fontSize: 20,
 
   },
-  button: {
-   
+  centeredView:
+  {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  warningText:
+  {
+    color: '#FFF',
+    fontSize: 20,
+    margin: 40,
+    textAlign: 'center'
+  },
+  warningView: {
+    height: 300,
+    width: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    borderRadius: 30
+
 
   }
 });
