@@ -1,54 +1,103 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Linking, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Button, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
-  const[name, setName] = useState("Peter's Counter!")
-  const[session, setSession] = useState({number: 0})
-  const[numState, setNumstate] = useState('')
-  const[current,setCurrent] = useState(true)
-  const onClick = () => {
-    let num = session.number
-    num ++
-    if (num % 2 == 0)
-    {
-      setNumstate('Even')
-    }
-    else{
 
-      setNumstate('Odd')
+  const [Sections, setSections] = useState ([
+    {
+      title:'Title 1',
+      data:['Item 1-1', 'Item 1-2', 'Item 1-3'],
     }
-    setName("Current Count: ")
-    setSession({number: num})
+  ])
+  const[Refreshing, setRefreshing] = useState(false)
+  const onRefresh = () => {
+    const count = Sections.length + 1
+    setRefreshing(true)
+    setSections([...Sections, {
+      title:'Title ' + count,
+      data: ['Item '+count +'-1','Item '+count +'-2', 'Item '+count +'-3'],
+    }])
+     setRefreshing(false)
   }
+  
   return (
-    <View style= {styles.container}>
-      <Text style= {styles.text}>  {name}</Text>
-      <Text style= {styles.countBox}> {session.number} </Text>
-      <Text style= {styles.text}> State: {numState} </Text>
-      <Button title= 'Update State' onPress ={onClick}> </Button>
-    </View>
-  );
-}
+    <SectionList
+      keyExtractor = {(item, index)=> index.toString()}
+      sections= {Sections}
+      renderItem={({item}) => (
+       <Text style= {styles.text}>{item}</Text>
+      )}
+      renderSectionHeader= {({section}) => (
+        <View style= {styles.item}>
+          <Text style= {styles.text}>{section.title}</Text>
+       </View>
+
+      )}
+      refreshControl= {
+        <RefreshControl
+        refreshing= {Refreshing}
+        onRefresh= {onRefresh}
+        />
+
+      }
+     />
+
+    // <FlatList
+    // keyExtractor= {(item, index) => index.toString()}
+    // data= {Items}
+    // renderItem={({item}) => (
+    //   <View style= {styles.item}>
+    //          <Text style= {styles.text}>{item.name}</Text>
+    //         </View>
+
+
+    // )}
+    // refreshControl= {
+    //   <RefreshControl
+    //   refreshing= {Refreshing}
+    //   onRefresh= {onRefresh}
+    //   colors={['blue']}
+    //   />
+    // }
+    // />
+
+    // <View style= {styles.body}>
+    //   <ScrollView>
+    //   {
+
+    //     Items.map((object)=>
+    //     {
+
+        
+    //       return (
+    //         <View style= {styles.item} key={object.key}>
+    //           <Text style= {styles.text}>{object.item}</Text>
+    //         </View>
+    //       )
+    //     })
+    //   }
+    //   </ScrollView>
+    // </View>
+
+  )
+    }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#00f',
+  body: {
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },
   item: {
-
+    margin: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'teal'
   },
   text: {
-    color: '#fff',
-    fontSize: 25,
-    margin: 2,
-  },
-  countBox: {
+    color: '#000',
     fontSize: 40,
-    margin: 40,
-    backgroundColor: 'lime'
+    margin: 10,
   }
 });
