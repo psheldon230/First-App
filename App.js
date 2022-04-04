@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable } from 'react-native';
+import { Button, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable, Alert } from 'react-native';
 
 const App = () => {
   const [name, setName] = useState('')
   const [state, setState] = useState(false)
   const onPressButton = () => {
+    if(state | name.length > 3)
+    {
     setState(!state)
+    }
+    else
+    {
+      Alert.alert('Warning: the name must be longer than 3 characters')
+
+      
+
+    }
     
   }
   return (
