@@ -1,24 +1,49 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput } from 'react-native';
+import { Button, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable } from 'react-native';
 
 const App = () => {
   const [name, setName] = useState('')
+  const [state, setState] = useState(false)
+  const onPressButton = () => {
+    setState(!state)
+    
+  }
   return (
-  <View style={styles.body}>
-    <Text style={styles.text}>Please write your name:
-    </Text>
-    <TextInput style= {styles.input}
-              placeholder= 'Ex: Isaac'
-              onChangeText= {(v) => setName(v)}
-                 />
-    <Text style= {styles.text}>Your name is {name}</Text>
-  </View>
+    <View style={styles.body}>
+      <Text style={styles.text}>Please write your name:
+      </Text>
+      <TextInput style={styles.input}
+        placeholder='Ex: Isaac'
+        onChangeText={(v) => setName(v)}
+      />
+      <Pressable
+      onPress={onPressButton}
+      underlayColor= 'red'
+      >
+        <View style= {styles.button}>
+        <Text style={styles.text}> 
+        {
+         state ?
+          'Clear'
+          :
+          'Submit'
+        }
+        </Text>
+        </View>
+      </Pressable>
+      {state ?
+        <Text style={styles.text}>Your name is {name}</Text>
+        :
+        null
+      }
+    </View>
 
-  
 
-  
-  )}
+
+
+  )
+}
 
 const styles = StyleSheet.create({
   body: {
@@ -41,6 +66,10 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     textAlign: 'center',
     fontSize: 20,
+
+  },
+  button: {
+   
 
   }
 });
