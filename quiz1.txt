@@ -1,0 +1,12 @@
+* = WRONG
+Q1.C *
+Q2.B
+Q3.A
+Q4.A
+Q5.C
+Q6.B
+Q7.B
+Q8. C *
+Q9.A
+Q10.B
+Q11. 
