@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Image, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable, Alert, Modal } from 'react-native';
+import PeterButton from './CustomButton';
 
 const App = () => {
   const [name, setName] = useState('')
@@ -39,7 +40,17 @@ const App = () => {
         placeholder='Ex: Isaac'
         onChangeText={(v) => setName(v)}
       />
-      <Pressable
+      <PeterButton
+      OnPressButtonFunction={onPressButton}
+      title={ 
+        state ?
+          'Clear'
+          :
+          'Submit'
+      }
+
+      />
+      {/* <Pressable
         onPress={onPressButton}
         underlayColor='red'
       >
@@ -53,7 +64,8 @@ const App = () => {
             }
           </Text>
         </View>
-      </Pressable>
+      </Pressable> */}
+      
       {state ?
       <View
       styles= {styles.body}>
