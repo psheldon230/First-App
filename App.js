@@ -1,103 +1,147 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View } from 'react-native';
+import { Button, Image, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable, Alert, Modal } from 'react-native';
+import PeterButton from './CustomButton';
 
-export default function App() {
-
-  const [Sections, setSections] = useState ([
-    {
-      title:'Title 1',
-      data:['Item 1-1', 'Item 1-2', 'Item 1-3'],
+const App = () => {
+  const [name, setName] = useState('')
+  const [state, setState] = useState(false)
+  const [showWarning, setShowwarning] = useState(false)
+  const onPressButton = () => {
+    if (state | name.length > 3) {
+      setState(!state)
     }
-  ])
-  const[Refreshing, setRefreshing] = useState(false)
-  const onRefresh = () => {
-    const count = Sections.length + 1
-    setRefreshing(true)
-    setSections([...Sections, {
-      title:'Title ' + count,
-      data: ['Item '+count +'-1','Item '+count +'-2', 'Item '+count +'-3'],
-    }])
-     setRefreshing(false)
+    else {
+      setShowwarning(true)
+    }
   }
-  
   return (
-    <SectionList
-      keyExtractor = {(item, index)=> index.toString()}
-      sections= {Sections}
-      renderItem={({item}) => (
-       <Text style= {styles.text}>{item}</Text>
-      )}
-      renderSectionHeader= {({section}) => (
-        <View style= {styles.item}>
-          <Text style= {styles.text}>{section.title}</Text>
-       </View>
+    <View style={styles.body}>
+      <Modal
+        visible={showWarning}
+        transparent
+        onRequestClose={() =>
+          setShowwarning(false)}
+      >
+        <View style= {styles.centeredView}>
+        <View style={styles.warningView}>
+        
+          <Text style={styles.warningText}>The name must be longer than 3 characters</Text>
+          <Button
+            title='Back'
+            onPress={() => setShowwarning(false)}
+          />
+        </View>
+        </View>
+      </Modal>
+      <Text style={styles.text}>Please write your name:
+      </Text>
+      <TextInput style={styles.input}
+        placeholder='Ex: Isaac'
+        onChangeText={(v) => setName(v)}
+      />
+      <PeterButton
+      OnPressButtonFunction={onPressButton}
+      title={ 
+        state ?
+          'Clear'
+          :
+          'Submit'
+      }
 
-      )}
-      refreshControl= {
-        <RefreshControl
-        refreshing= {Refreshing}
-        onRefresh= {onRefresh}
-        />
+      />
+      {/* <Pressable
+        onPress={onPressButton}
+        underlayColor='red'
+      >
+        <View style={styles.button}>
+          <Text style={styles.text}>
+            {
+              state ?
+                'Clear'
+                :
+                'Submit'
+            }
+          </Text>
+        </View>
+      </Pressable> */}
+      
+      {state ?
+      <View
+      styles= {styles.body}>
+        <Text 
+        style= {styles.text}>Your name is {name}
+        </Text>
+        <Image
+        style={styles.image}
+        source= {require("./assets/checkmark.jpg")}/>
+       
+      </View>
+        :
+
+        <Image
+        style={styles.image}
+         source={require("./assets/error.jpg")}
+         />
 
       }
-     />
-
-    // <FlatList
-    // keyExtractor= {(item, index) => index.toString()}
-    // data= {Items}
-    // renderItem={({item}) => (
-    //   <View style= {styles.item}>
-    //          <Text style= {styles.text}>{item.name}</Text>
-    //         </View>
-
-
-    // )}
-    // refreshControl= {
-    //   <RefreshControl
-    //   refreshing= {Refreshing}
-    //   onRefresh= {onRefresh}
-    //   colors={['blue']}
-    //   />
-    // }
-    // />
-
-    // <View style= {styles.body}>
-    //   <ScrollView>
-    //   {
-
-    //     Items.map((object)=>
-    //     {
-
-        
-    //       return (
-    //         <View style= {styles.item} key={object.key}>
-    //           <Text style= {styles.text}>{object.item}</Text>
-    //         </View>
-    //       )
-    //     })
-    //   }
-    //   </ScrollView>
-    // </View>
-
+  </View>
   )
-    }
+}
 
 const styles = StyleSheet.create({
   body: {
-    backgroundColor: 'white',
+    flex: 1,
+    backgroundColor: 'lime',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  item: {
-    margin: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'teal'
   },
   text: {
     color: '#000',
     fontSize: 40,
-    margin: 10,
+    margin: 40,
+    textAlign: 'center'
+  },
+  input:
+  {
+    width: 200,
+    height: 30,
+    borderWidth: 1,
+    borderColor: 'black',
+    borderRadius: 7,
+    textAlign: 'center',
+    fontSize: 20,
+
+  },
+  centeredView:
+  {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+  warningText:
+  {
+    color: '#FFF',
+    fontSize: 20,
+    margin: 40,
+    textAlign: 'center'
+  },
+  warningView: {
+    height: 300,
+    width: 300,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    borderRadius: 30
+
+
+  },
+  image:
+  {
+    margin: 2,
+    width: 100,
+    height: 100,
   }
 });
+
+export default App
