@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable, Alert, Modal } from 'react-native';
+import { Button, Image, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable, Alert, Modal } from 'react-native';
 
 const App = () => {
   const [name, setName] = useState('')
@@ -55,15 +55,25 @@ const App = () => {
         </View>
       </Pressable>
       {state ?
-        <Text style={styles.text}>Your name is {name}</Text>
+      <View
+      styles= {styles.body}>
+        <Text 
+        style= {styles.text}>Your name is {name}
+        </Text>
+        <Image
+        style={styles.image}
+        source= {require("./assets/checkmark.jpg")}/>
+       
+      </View>
         :
-        null
+
+        <Image
+        style={styles.image}
+         source={require("./assets/error.jpg")}
+         />
+
       }
-    </View>
-
-
-
-
+  </View>
   )
 }
 
@@ -113,6 +123,12 @@ const styles = StyleSheet.create({
     borderRadius: 30
 
 
+  },
+  image:
+  {
+    margin: 2,
+    width: 100,
+    height: 100,
   }
 });
 
