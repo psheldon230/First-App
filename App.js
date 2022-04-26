@@ -3,72 +3,36 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, Image, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable, Alert, Modal } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator} from '@react-navigation/stack';
-
-const Stack = createStackNavigator();
-function ScreenA({navigation})
-{
-  const onPressHandler = () => {
-    navigation.navigate('Screen B')
-  }
-  return(
-  <View
-  style= {styles.body}>
-    <Text
-    style= {styles.text}>
-      Screen A
-    </Text>
-    <Pressable
-    onPress={onPressHandler}
-    style= {({pressed}) => ({backgroundColor: pressed? '#ddd' : '#0f0'})}>
-      <Text
-      style= {styles.text}>
-        To Screen B
-      </Text>
-    </Pressable>
-  </View>
-  )
-}
-
-function ScreenB({navigation})
-{
-  const onPressHandler = () => {
-    navigation.navigate('Screen A')
-  }
-
-  return(
-  <View
-  style= {styles.body}>
-    <Text
-    style= {styles.text}>
-      Screen B
-    </Text>
-    <Pressable
-    onPress={onPressHandler}
-    style= {({pressed}) => ({backgroundColor: pressed? 'red' : '#ddd'})}>
-      <Text
-      style= {styles.text}>
-        To Screen A
-      </Text>
-    </Pressable>
-  </View>
-  )
-}
+import ScreenA from './ScreenA';
+import ScreenB from './ScreenB';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+const Tab = createBottomTabNavigator()
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
+      <Tab.Navigator
+      screenOptions= { () => ({
+        header: () => null,
+        tabBarIcon: (focused, color, size) => null})}
+      tabBarOptions= {{
+        activeBackgroundColor: 'white',
+        inactiveBackgroundColor: 'grey',
+        labelStyle: {alignItems: 'center',
+                    fontSize: 15,
+                    justifyContent: 'center'},
+      }}>
+    
+        <Tab.Screen
           name= 'Screen A'
-          component= {ScreenA}
-          options= {{ header: () => null}}>
+          component= {ScreenA}>
           
-        </Stack.Screen>
-        <Stack.Screen
+        </Tab.Screen>
+        <Tab.Screen
           name= 'Screen B'
           component= {ScreenB}>
-        </Stack.Screen>
-      </Stack.Navigator>
+        </Tab.Screen>
+      </Tab.Navigator>
     </NavigationContainer>
 
   )
