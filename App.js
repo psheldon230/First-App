@@ -1,134 +1,94 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Image, FlatList, Linking, SafeAreaView, ScrollView, RefreshControl, SectionList, StyleSheet, Text, View, TextInput, TouchableHighlight, TouchableWithoutFeedback, Pressable, Alert, Modal } from 'react-native';
-import PeterButton from './CustomButton';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator} from '@react-navigation/stack';
 
-const App = () => {
-  const [name, setName] = useState('')
-  const [state, setState] = useState(false)
-  const [showWarning, setShowwarning] = useState(false)
-  const onPressButton = () => {
-    if (state | name.length > 3) {
-      setState(!state)
-    }
-    else {
-      setShowwarning(true)
-    }
+const Stack = createStackNavigator();
+function ScreenA({navigation})
+{
+  const onPressHandler = () => {
+    navigation.navigate('Screen B')
   }
-  return (
-    <View style={styles.body}>
-      <Modal
-        visible={showWarning}
-        transparent
-        onRequestClose={() =>
-          setShowwarning(false)}
-      >
-        <View style= {styles.centeredView}>
-        <View style={styles.warningView}>
-        
-          <Text style={styles.warningText}>The name must be longer than 3 characters</Text>
-          <Button
-            title='Back'
-            onPress={() => setShowwarning(false)}
-          />
-        </View>
-        </View>
-      </Modal>
-      <Text style={styles.text}>Please write your name:
+  return(
+  <View
+  style= {styles.body}>
+    <Text
+    style= {styles.text}>
+      Screen A
+    </Text>
+    <Pressable
+    onPress={onPressHandler}
+    style= {({pressed}) => ({backgroundColor: pressed? '#ddd' : '#0f0'})}>
+      <Text
+      style= {styles.text}>
+        To Screen B
       </Text>
-      <TextInput style={styles.input}
-        placeholder='Ex: Isaac'
-        onChangeText={(v) => setName(v)}
-      />
-      <PeterButton
-      OnPressButtonFunction={onPressButton}
-      title={ 
-        state ?
-          'Clear'
-          :
-          'Submit'
-      }
-
-    />
-      
-      {state ?
-      <View
-      style= {styles.body}>
-        <Text 
-        style= {styles.text}>Your name is {name}
-        </Text>
-        <Image
-        style={styles.image}
-        source= {require("./assets/checkmark.jpg")}/>
-       
-      </View>
-        :
-      <View
-      style= {styles.body}>
-        <Image
-        style={styles.image}
-         source={require("./assets/error.jpg")}
-         />
-      </View>
-
-      }
+    </Pressable>
   </View>
   )
 }
 
-const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    backgroundColor: 'lime',
-    alignItems: 'center',
-  },
-  text: {
-    color: '#000',
-    fontSize: 40,
-    margin: 40,
-    textAlign: 'center'
-  },
-  input:
-  {
-    width: 200,
-    height: 30,
-    borderWidth: 1,
-    borderColor: 'black',
-    borderRadius: 7,
-    textAlign: 'center',
-    fontSize: 20,
-
-  },
-  centeredView:
-  {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-
-  },
-  warningText:
-  {
-    color: '#FFF',
-    fontSize: 20,
-    margin: 40,
-    textAlign: 'center'
-  },
-  warningView: {
-    height: 300,
-    width: 300,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'black',
-    borderRadius: 30
-
-
-  },
-  image:
-  {
-    margin: 2,
-    width: 80,
-    height: 80,
+function ScreenB({navigation})
+{
+  const onPressHandler = () => {
+    navigation.navigate('Screen A')
   }
-});
+
+  return(
+  <View
+  style= {styles.body}>
+    <Text
+    style= {styles.text}>
+      Screen B
+    </Text>
+    <Pressable
+    onPress={onPressHandler}
+    style= {({pressed}) => ({backgroundColor: pressed? 'red' : '#ddd'})}>
+      <Text
+      style= {styles.text}>
+        To Screen A
+      </Text>
+    </Pressable>
+  </View>
+  )
+}
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name= 'Screen A'
+          component= {ScreenA}
+          options= {{ header: () => null}}>
+          
+        </Stack.Screen>
+        <Stack.Screen
+          name= 'Screen B'
+          component= {ScreenB}>
+        </Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
+
+  )
+}
+const styles = StyleSheet.create({
+body:{
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+text:{
+  fontSize: 40,
+  fontWeight: 'bold',
+  margin: 10,
+
+
+}
+
+})
+
+  
 
 export default App
