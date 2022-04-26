@@ -49,26 +49,11 @@ const App = () => {
           'Submit'
       }
 
-      />
-      {/* <Pressable
-        onPress={onPressButton}
-        underlayColor='red'
-      >
-        <View style={styles.button}>
-          <Text style={styles.text}>
-            {
-              state ?
-                'Clear'
-                :
-                'Submit'
-            }
-          </Text>
-        </View>
-      </Pressable> */}
+    />
       
       {state ?
       <View
-      styles= {styles.body}>
+      style= {styles.body}>
         <Text 
         style= {styles.text}>Your name is {name}
         </Text>
@@ -78,11 +63,13 @@ const App = () => {
        
       </View>
         :
-
+      <View
+      style= {styles.body}>
         <Image
         style={styles.image}
          source={require("./assets/error.jpg")}
          />
+      </View>
 
       }
   </View>
@@ -139,8 +126,8 @@ const styles = StyleSheet.create({
   image:
   {
     margin: 2,
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
   }
 });
 
